@@ -1,0 +1,3 @@
+[submodule "external/jaeger-client-cpp"]
+	path = external/jaeger-client-cpp
+	url = https://github.com/jaegertracing/jaeger-client-cpp.git
