@@ -53,6 +53,9 @@ cd $DIR
 
 ./format.sh
 
+cd external/jaeger-client-cpp
+git apply $DIR/jaeger_patch.patch
+
 if [ ! -d build ]; then
   mkdir build
 fi
@@ -61,6 +64,9 @@ cd build
 
 cmake -DCMAKE_BUILD_TYPE=$build_type -G "Unix Makefiles" ..
 cmake --build . -- -j$(nproc)
+
+cd $DIR/external/jaeger-client-cpp
+git checkout .
 
 cd $PREV_DIR
 
