@@ -10,8 +10,13 @@
 namespace {
 std::vector<unsigned> create_thread_counts() {
   auto hw_thds = std::thread::hardware_concurrency();
-  if (hw_thds == 0)
+  std::cout << "std::thread::hardware_concurrency: " << hw_thds << std::endl;
+  if (hw_thds == 0) {
     hw_thds = 4;
+    std::cout
+      << "std::thread::hardware_concurrency returned 0, defaulting to 4."
+      << std::endl;
+  }
   std::vector<unsigned> v(hw_thds * 10, 0);
   std::iota(v.begin(), v.end(), 1);
   return v;
