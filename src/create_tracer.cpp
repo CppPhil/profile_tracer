@@ -11,9 +11,7 @@
 namespace {
 class Logger : public jaegertracing::logging::Logger {
 public:
-  Logger() {
-    setbuf(stdout, nullptr);
-  }
+  Logger() = default;
 
   ~Logger() override = default;
 
@@ -21,8 +19,7 @@ public:
     fprintf(stderr, "JAEGER ERROR: \"%s\"\n", message.c_str());
   }
 
-  void info(const std::string& message) override {
-    // printf("JAEGER INFO : \"%s\"\n", message.c_str());
+  void info(const std::string&) override {
   }
 };
 } // namespace

@@ -17,7 +17,7 @@ std::vector<unsigned> create_thread_counts() {
       << "std::thread::hardware_concurrency returned 0, defaulting to 4."
       << std::endl;
   }
-  std::vector<unsigned> v(hw_thds * 10, 0);
+  std::vector<unsigned> v(hw_thds, 0);
   std::iota(v.begin(), v.end(), 1);
   return v;
 }
