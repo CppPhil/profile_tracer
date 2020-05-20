@@ -45,7 +45,7 @@ std::chrono::microseconds profile(T lambda) {
 int main() {
   auto tracer = create_tracer("config.yml", "profile_tracer_service");
   const auto thread_counts = create_thread_counts();
-  constexpr auto rounds = 100000;
+  constexpr auto rounds = 10000;
 
   for (const auto current_thread_count : thread_counts) {
     std::vector<std::thread> thds;
