@@ -1,0 +1,43 @@
+diff --git a/src/jaegertracing/Tracer.h b/src/jaegertracing/Tracer.h
+index 8d20426..3f5c160 100644
+--- a/src/jaegertracing/Tracer.h
++++ b/src/jaegertracing/Tracer.h
+@@ -215,7 +215,6 @@ class Tracer : public opentracing::Tracer,
+         , _reporter(reporter)
+         , _metrics(metrics)
+         , _logger(logger)
+-        , _randomNumberGenerator()
+         , _textPropagator(headersConfig, _metrics)
+         , _httpHeaderPropagator(headersConfig, _metrics)
+         , _binaryPropagator(_metrics)
+@@ -240,17 +239,14 @@ class Tracer : public opentracing::Tracer,
+         }
+ 
+         std::copy(tags.cbegin(), tags.cend(), std::back_inserter(_tags));
+-
+-        std::random_device device;
+-        _randomNumberGenerator.seed(device());
+     }
+ 
+-    uint64_t randomID() const
++    static uint64_t randomID()
+     {
+-        std::lock_guard<std::mutex> lock(_randomMutex);
+-        auto value = _randomNumberGenerator();
++        thread_local std::mt19937_64 randomNumberGenerator(std::random_device{}());
++        auto value = randomNumberGenerator();
+         while (value == 0) {
+-            value = _randomNumberGenerator();
++            value = randomNumberGenerator();
+         }
+         return value;
+     }
+@@ -292,8 +288,6 @@ class Tracer : public opentracing::Tracer,
+     std::shared_ptr<reporters::Reporter> _reporter;
+     std::shared_ptr<metrics::Metrics> _metrics;
+     std::shared_ptr<logging::Logger> _logger;
+-    mutable std::mt19937_64 _randomNumberGenerator;
+-    mutable std::mutex _randomMutex;
+     propagation::TextMapPropagator _textPropagator;
+     propagation::HTTPHeaderPropagator _httpHeaderPropagator;
+     propagation::BinaryPropagator _binaryPropagator;

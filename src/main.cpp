@@ -1,13 +1,13 @@
 #include <array>
 #include <chrono>
+#include <iostream>
 #include <numeric>
 #include <thread>
 #include <vector>
 
-#include <iostream>
-
 #include "create_tracer.hpp"
 
+namespace {
 std::vector<unsigned> create_thread_counts() {
   auto hw_thds = std::thread::hardware_concurrency();
   if (hw_thds == 0)
@@ -35,11 +35,12 @@ std::chrono::microseconds profile(T lambda) {
   const auto avg = sum / Rounds;
   return avg;
 }
+} // namespace
 
 int main() {
   auto tracer = create_tracer("config.yml", "profile_tracer_service");
   const auto thread_counts = create_thread_counts();
-  constexpr auto rounds = 10000;
+  constexpr auto rounds = 1000;
 
   for (const auto current_thread_count : thread_counts) {
     const auto avg = profile<rounds>([&tracer, current_thread_count] {

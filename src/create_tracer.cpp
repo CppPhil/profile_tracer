@@ -22,7 +22,7 @@ public:
   }
 
   void info(const std::string& message) override {
-    printf("JAEGER INFO : \"%s\"\n", message.c_str());
+    // printf("JAEGER INFO : \"%s\"\n", message.c_str());
   }
 };
 } // namespace
