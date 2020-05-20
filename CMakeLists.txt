@@ -32,15 +32,13 @@ add_subdirectory(external/jaeger-client-cpp)
 
 set(APP_NAME profile_tracer_app)
 
-set(HEADERS
-    include/h.hpp)
+set(HEADERS include/h.hpp)
 
-set(SOURCES
-    src/main.cpp)
+set(SOURCES src/main.cpp)
 
 add_executable(${APP_NAME} ${HEADERS} ${SOURCES})
 
 target_link_libraries(${APP_NAME} PRIVATE Threads::Threads jaegertracing)
 
-target_include_directories(${APP_NAME} PRIVATE ${profile_tracer_SOURCE_DIR}/include)
-
+target_include_directories(${APP_NAME}
+                           PRIVATE ${profile_tracer_SOURCE_DIR}/include)

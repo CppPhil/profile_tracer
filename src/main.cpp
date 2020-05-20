@@ -2,13 +2,10 @@
 
 #include "h.hpp"
 
-void f() 
-{
+void f() {
   printf("TEST\n");
 }
 
-int main()
-{
+int main() {
   f();
 }
-
