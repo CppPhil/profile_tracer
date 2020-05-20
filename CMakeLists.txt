@@ -34,9 +34,12 @@ add_subdirectory(external/jaeger-client-cpp)
 
 set(APP_NAME profile_tracer_app)
 
-set(HEADERS include/h.hpp)
+set(HEADERS
+    include/create_tracer.hpp)
 
-set(SOURCES src/main.cpp)
+set(SOURCES
+    src/main.cpp
+    src/create_tracer.cpp)
 
 add_executable(${APP_NAME} ${HEADERS} ${SOURCES})
 
