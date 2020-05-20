@@ -17,17 +17,20 @@ usage() {
   build.sh [OPTIONS] Builds the project using the supplied options.
 
   EXAMPLE:
-    build.sh --build_type=Debug 
+    build.sh --build_type=Debug --apply_patch=false
 
   OPTIONS:
   -h
     --help                this help text
   
   --build_type=BUILD_TYPE The build type to use (Debug | Release)
+
+  --apply_patch=BOOLEAN   Whether to apply the Jaeger patch (true | false)
 EOF
 }
 
 build_type="Debug"
+apply_patch=false
 
 while [ "$1" != "" ]; do
   PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -39,6 +42,9 @@ while [ "$1" != "" ]; do
       ;;
     --build_type)
       build_type=$VALUE
+      ;;
+    --apply_patch)
+      apply_patch=$VALUE
       ;;
     *)
       echo "ERROR: unknown parameter \"$PARAM\""
@@ -53,9 +59,10 @@ cd $DIR
 
 ./format.sh
 
-# Apply the jaeger patch
-cd external/jaeger-client-cpp
-git apply $DIR/jaeger_patch.patch
+if [ $apply_patch ]; then
+  cd external/jaeger-client-cpp
+  git apply $DIR/jaeger_patch.patch
+fi
 
 cd $DIR
 
@@ -68,9 +75,11 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=$build_type -G "Unix Makefiles" ..
 cmake --build . -- -j$(nproc)
 
-# Remove changes from the jaeger-client-cpp submodule
-cd $DIR/external/jaeger-client-cpp
-git checkout .
+if [ $apply_patch ]; then
+  # Remove changes from the jaeger-client-cpp submodule
+  cd $DIR/external/jaeger-client-cpp
+  git checkout .
+fi
 
 cd $PREV_DIR
 
