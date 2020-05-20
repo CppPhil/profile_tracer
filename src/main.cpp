@@ -66,7 +66,7 @@ int main() {
               << "µs\n"
               << "Current thread count                   : "
               << current_thread_count << '\n'
-              << "Rounds                                 : " << rounds
+              << "Rounds                                 : " << rounds << '\n'
               << std::endl;
   }
 }
