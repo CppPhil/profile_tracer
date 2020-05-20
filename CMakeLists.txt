@@ -40,5 +40,7 @@ set(SOURCES
 
 add_executable(${APP_NAME} ${HEADERS} ${SOURCES})
 
-target_link_libraries(${APP_NAME} PUBLIC Threads::Threads jaegertracing)
+target_link_libraries(${APP_NAME} PRIVATE Threads::Threads jaegertracing)
+
+target_include_directories(${APP_NAME} PRIVATE ${profile_tracer_SOURCE_DIR}/include)
 
