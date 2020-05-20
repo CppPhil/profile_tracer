@@ -30,3 +30,15 @@ set(JAEGERTRACING_BUILD_EXAMPLES
     CACHE BOOL "Build examples" FORCE)
 add_subdirectory(external/jaeger-client-cpp)
 
+set(APP_NAME profile_tracer_app)
+
+set(HEADERS
+    include/h.hpp)
+
+set(SOURCES
+    src/main.cpp)
+
+add_executable(${APP_NAME} ${HEADERS} ${SOURCES})
+
+target_link_libraries(${APP_NAME} PUBLIC Threads::Threads jaegertracing)
+
