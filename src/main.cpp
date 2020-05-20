@@ -49,21 +49,18 @@ int main() {
 
   for (const auto current_thread_count : thread_counts) {
     std::vector<std::thread> thds;
-    for (unsigned i = 0; i < current_thread_count; ++i) {
+    for (unsigned i = 0; i < current_thread_count; ++i)
       thds.emplace_back([&tracer, i] {
-        for (int cur_round = 0; cur_round < rounds; ++cur_round) {
+        for (int cur_round = 0; cur_round < rounds; ++cur_round)
           tracer->StartSpan(std::to_string(i));
-        }
       });
-    }
 
     const auto avg = profile<rounds>([&tracer, current_thread_count] {
       tracer->StartSpan("cnt" + std::to_string(current_thread_count));
     });
 
-    for (auto& thd : thds) {
+    for (auto& thd : thds)
       thd.join();
-    }
 
     std::cout << "Average time taken to create trace span: " << avg.count()
               << "µs\n"
