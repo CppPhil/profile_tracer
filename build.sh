@@ -53,8 +53,11 @@ cd $DIR
 
 ./format.sh
 
+# Apply the jaeger patch
 cd external/jaeger-client-cpp
 git apply $DIR/jaeger_patch.patch
+
+cd $DIR
 
 if [ ! -d build ]; then
   mkdir build
@@ -65,6 +68,7 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=$build_type -G "Unix Makefiles" ..
 cmake --build . -- -j$(nproc)
 
+# Remove changes from the jaeger-client-cpp submodule
 cd $DIR/external/jaeger-client-cpp
 git checkout .
 
