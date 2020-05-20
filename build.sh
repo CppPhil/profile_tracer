@@ -59,7 +59,7 @@ cd $DIR
 
 ./format.sh
 
-if [ $apply_patch ]; then
+if [ "$apply_patch" = true ]; then
   cd external/jaeger-client-cpp
   git apply $DIR/jaeger_patch.patch
 fi
@@ -75,7 +75,7 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=$build_type -G "Unix Makefiles" ..
 cmake --build . -- -j$(nproc)
 
-if [ $apply_patch ]; then
+if [ "$apply_patch" = true ]; then
   # Remove changes from the jaeger-client-cpp submodule
   cd $DIR/external/jaeger-client-cpp
   git checkout .
