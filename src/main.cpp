@@ -35,8 +35,8 @@ std::chrono::microseconds profile(T lambda) {
     durations[i] = diff;
   }
 
-  const auto sum = std::accumulate(durations.begin(), durations.end(),
-                                   std::chrono::microseconds(0));
+  using namespace std::chrono_literals;
+  const auto sum = std::accumulate(durations.begin(), durations.end(), 0us);
   const auto avg = sum / Rounds;
   return avg;
 }
