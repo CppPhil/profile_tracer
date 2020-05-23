@@ -16,6 +16,10 @@ delete_file_if_exists () {
 }
 
 format_cmake () {
+  if [ "$(which cmake-format)" == "" ]; then
+    return
+  fi
+
   cmakelists_file=$1
   tmp_file="${cmakelists_file}.tmp"
 
@@ -25,6 +29,10 @@ format_cmake () {
 }
 
 format () {
+  if [ "$(which clang-format)" == "" ]; then
+    return
+  fi
+
   cd $1
   delete_file_if_exists ./.clang-format
   cp $DOT_CLANG_FORMAT ./.clang-format
